@@ -188,8 +188,6 @@ Everything else is removed to keep the template clean.
 
 ---
 
-## Version notes
-- v8.1 → v9: cover/title page bottom margin set to **3 cm** (per NTU cover spec); added clearer NTU format summary + ETD post-PDF rules; kept file set minimal.
 
 
 ## Overleaf warnings about cwTeXKai bold (safe)
