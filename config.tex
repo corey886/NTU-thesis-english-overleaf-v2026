@@ -1,0 +1,94 @@
+% ============================================================
+% config.tex — Edit ONLY this file for most changes
+% ============================================================
+
+% ============================================================
+% 0) Compliance / Overleaf safety switches
+% ============================================================
+% NTU English thesis typically requires Times New Roman (12pt) and double spacing.
+% Overleaf may NOT ship proprietary fonts like Times New Roman by default.
+%
+% - Strict mode (recommended for FINAL): stop compilation if Times New Roman is not found.
+% - Draft mode: allow safe fallback fonts for preview (NOT zero-risk for submission).
+\newif\ifStrictNTUFonts   \StrictNTUFontstrue
+
+% Main font selection:
+% Option A (recommended on Overleaf): point to an uploaded font FILE.
+%   Example: \def\MainFontFile{fonts/TimesNewRoman.ttf}
+% Option B: use a font FAMILY name known to your environment.
+\def\MainFontName{Times New Roman}
+\def\MainFontFile{}  % empty = use MainFontName
+
+% -------------------------
+% A) Toggle switches (one-line ON/OFF)
+% -------------------------
+\newif\ifIncludeCertificate      \IncludeCertificatetrue   % required for final submission
+\newif\ifIncludeAcknowledgement  \IncludeAcknowledgementtrue
+\newif\ifIncludeChineseAbstract  \IncludeChineseAbstracttrue % required for English thesis at NTU (keep true)
+\newif\ifIncludeEnglishAbstract  \IncludeEnglishAbstracttrue % required
+\newif\ifIncludeLOF              \IncludeLOFtrue
+\newif\ifIncludeLOT              \IncludeLOTtrue
+\newif\ifIncludeAppendix         \IncludeAppendixfalse
+
+
+% --- Draft compile toggles for main chapters (structure stays in TOC) ---
+% NOTE: These switches hide ONLY the body text of each chapter to speed up drafting/compiling.
+%       Chapter titles remain (and therefore remain in the Table of Contents).
+\newif\ifIncludeMethodsContent     \IncludeMethodsContenttrue
+\newif\ifIncludeResultsContent     \IncludeResultsContenttrue
+\newif\ifIncludeDiscussionContent  \IncludeDiscussionContenttrue
+
+% Optional: one master switch for "fast compile" during drafting.
+% Set true to hide Methods/Results/Discussion bodies regardless of the three switches above.
+\newif\ifDraftFastCompile          \DraftFastCompilefalse
+
+% -------------------------
+% B) Thesis metadata
+% -------------------------
+
+% -------------------------
+% B1) Cover / title-page unit names (EDIT for your department/institute)
+% -------------------------
+% Chinese (single-line recommended for NTU cover)
+\newcommand{\CoverUniversityCH}{國立臺灣大學}
+\newcommand{\CoverCollegeCH}{（請填寫學院名稱）}
+\newcommand{\CoverInstituteCH}{（請填寫系所／研究所名稱）}
+\newcommand{\CoverDegreeCH}{博士論文}
+\newcommand{\CoverLineCH}{\CoverUniversityCH\CoverCollegeCH\CoverInstituteCH}
+
+% English (official names preferred)
+\newcommand{\CoverInstituteEN}{Graduate Institute / Department Name}
+\newcommand{\CoverCollegeEN}{College Name}
+\newcommand{\CoverUniversityEN}{National Taiwan University}
+\newcommand{\CoverDegreeEN}{Doctoral Dissertation}
+
+\newcommand{\ThesisTitleEN}{Your English Dissertation Title Here}
+\newcommand{\ThesisTitleCH}{您的中文論文題目}
+\newcommand{\AuthorEN}{Last-Name, First-Name} % NTU English format: "Family name, Given name"
+\newcommand{\AuthorCH}{您的中文姓名}
+\newcommand{\AdvisorEN}{Firstname Lastname, Ph.D.}
+\newcommand{\AdvisorCH}{指導教授中文姓名}
+\newcommand{\DefenseYear}{2026}
+\newcommand{\DefenseMonth}{July}
+\newcommand{\DefenseYearCH}{115} % ROC year
+\newcommand{\DefenseMonthCH}{7}
+
+% -------------------------
+% C) Keywords (5–7 recommended)
+% -------------------------
+\newcommand{\KeywordsEN}{Keyword 1; Keyword 2; Keyword 3; Keyword 4; Keyword 5}
+\newcommand{\KeywordsCH}{關鍵詞一；關鍵詞二；關鍵詞三；關鍵詞四；關鍵詞五}
+
+% -------------------------
+% D0) CJK bold fallback (Overleaf warning fix)
+% -------------------------
+% Some Kai fonts (e.g., cwTeXKai) do not ship a bold face.
+% To avoid warnings like "Font shape .../b/n undefined", we fake bold when needed.
+% Increase slightly if bold looks too light (e.g., 2.5). Keep modest.
+\providecommand{\CJKAutoFakeBold}{2.0}
+
+% -------------------------
+% D) Optional: override Chinese font (if you KNOW your environment has it)
+%    Leave commented if unsure.
+% -------------------------
+% \def\CJKFontOverride{BiauKai}

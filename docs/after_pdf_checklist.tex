@@ -1,0 +1,70 @@
+% ============================================================
+% docs/after_pdf_checklist.tex — POST‑PDF Checklist (NOT part of thesis)
+% ============================================================
+% This file is a standalone note written in LaTeX for convenience.
+% It must NOT be included (\input) into main.tex.
+%
+% Scope: NTU e-thesis submission steps AFTER you have produced ONE final PDF.
+% These operations are mandatory for the PDF you upload (and for printed copies).
+
+\documentclass[12pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+
+\begin{document}
+
+\section*{Post‑PDF Steps (Do NOT implement in thesis LaTeX)}
+\begin{itemize}
+  \item \textbf{Watermark / DOI / PDF security are actions after you finish the \underline{final single PDF}.}
+        They should \textbf{NOT} appear in your thesis LaTeX source.
+  \item Work on the \textbf{exact PDF file you will upload} (same pages, same pagination).
+\end{itemize}
+
+\section*{A. Create one final PDF}
+\begin{enumerate}
+  \item Compile/export your thesis/dissertation into \textbf{one single PDF} (cover/title page/frontmatter/main text/references/appendix).
+  \item \textbf{Do not add spine information} onto the e-thesis cover (spine is for printed copies).
+\end{enumerate}
+
+\section*{B. Add NTU watermark (mandatory)}
+Recommended settings (Adobe Acrobat / Foxit):
+\begin{itemize}
+  \item Absolute Scale: \textbf{50\%} (deselect ``Scale relative to target page'')
+  \item Opacity: \textbf{50\%}
+  \item Location: \textbf{Appear behind page}
+  \item Position: \textbf{2.5 cm from Top} and \textbf{2.5 cm from Right}
+\end{itemize}
+
+\section*{C. Add your DOI (mandatory)}
+Recommended settings:
+\begin{itemize}
+  \item Text: copy from NTU submission system (format: \texttt{doi:10.6342/NTU20XXxxxxx})
+  \item Size: \textbf{12} (recommended)
+  \item Opacity: \textbf{100\%}
+  \item Location: \textbf{Appear behind page}
+  \item Position: \textbf{1 cm from Bottom} and \textbf{1 cm from Right}
+\end{itemize}
+
+\section*{D. Set PDF protection (mandatory)}
+Goal: prevent copying/editing, \textbf{still allow high‑resolution printing}.
+\begin{enumerate}
+  \item \textbf{Do NOT set a password to open the PDF} (opening password must be off).
+  \item Set a \textbf{permissions password} (to restrict editing/copying).
+  \item Save, close, and re‑open the PDF.
+  \item Check (Ctrl+D \(\rightarrow\) Security): only
+        \textbf{Printing} and \textbf{Content Copying for Accessibility} are \textbf{Allowed}.
+\end{enumerate}
+
+\section*{E. Pre‑upload sanity check}
+\begin{itemize}
+  \item PDF opens normally.
+  \item Watermark and DOI are present on \textbf{all pages} (no blank pages without them; remove unintended blank pages).
+  \item Pagination matches the printed copy.
+\end{itemize}
+
+\section*{F. Paper copies (confirm with your department)}
+NTU requires submitting printed copies to the Library; required copy counts can vary by unit/college.
+Always confirm the latest rule with your department/college and the Library.
+
+\end{document}

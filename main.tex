@@ -1,0 +1,298 @@
+% !TEX program = xelatex
+% ============================================================
+% main.tex — NTU Thesis Template (English) — minimal + toggles
+% ============================================================
+%
+% Note:
+% 1) Watermark / DOI / PDF security are POST-PDF steps.
+%    Do NOT implement them in LaTeX. See: docs/after_pdf_checklist.tex
+% 2) This template focuses on being review-friendly and low-risk for compliance.
+
+\documentclass[12pt, a4paper]{report}
+
+% -------------------------
+% Packages (keep minimal)
+% -------------------------
+\usepackage[top=3cm, bottom=2cm, left=3cm, right=3cm]{geometry}
+\usepackage{setspace}
+\usepackage{iftex}
+
+% --- Hard requirement: XeLaTeX ---
+% Overleaf: Menu → Compiler → XeLaTeX
+\ifXeTeX\else
+  \errmessage{NTU thesis template requires XeLaTeX.\MessageBreak
+  Overleaf: Menu -> Compiler -> XeLaTeX.\MessageBreak
+  (pdfLaTeX/LuaLaTeX are not supported.)}
+\fi
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+
+% -------------------------
+% Load user config (metadata + switches)
+% -------------------------
+\input{config}
+
+% -------------------------
+% Fonts
+% -------------------------
+% English main font (NTU: Times New Roman).
+% - Strict mode (FINAL): stop if Times New Roman is not available.
+% - Draft mode: fall back to TeX Gyre Termes for preview (NOT submission-safe).
+\makeatletter
+\newcommand{\NTU@SetMainFont}{%
+  \ifx\MainFontFile\@empty
+    \IfFontExistsTF{\MainFontName}{%
+      \setmainfont{\MainFontName}%
+    }{%
+      \ifStrictNTUFonts
+        \errmessage{Times New Roman not found.\MessageBreak
+        FINAL mode requires Times New Roman.\MessageBreak
+        Overleaf fix: upload the font file(s) and set \string\def\string\MainFontFile{fonts/TimesNewRoman.ttf} in config.tex,\MessageBreak
+        OR set \string\StrictNTUFontsfalse for DRAFT preview (not submission-safe).}%
+      \else
+        \typeout{NTU WARNING: Times New Roman not found; using TeX Gyre Termes for DRAFT preview.}%
+        \setmainfont{TeX Gyre Termes}%
+      \fi
+    }%
+  \else
+    \IfFileExists{\MainFontFile}{%
+      \setmainfont{\MainFontFile}%
+    }{%
+      \ifStrictNTUFonts
+        \errmessage{MainFontFile not found: \MainFontFile\MessageBreak
+        Upload the font file to the project (e.g., fonts/TimesNewRoman.ttf), or clear MainFontFile to use MainFontName.}%
+      \else
+        \typeout{NTU WARNING: MainFontFile not found; using TeX Gyre Termes for DRAFT preview.}%
+        \setmainfont{TeX Gyre Termes}%
+      \fi
+    }%
+  \fi
+}
+\makeatother
+
+% NOTE: internal macros contain '@' and must be invoked with \makeatletter.
+\makeatletter\NTU@SetMainFont\makeatother
+
+% Default fake-bold strength for CJK fonts lacking bold faces.
+\providecommand{\CJKAutoFakeBold}{2.0}
+
+% Chinese font: "Kai" family prioritized for review consistency.
+% If you provided \CJKFontOverride in config.tex, we use it.
+\makeatletter
+\@ifundefined{CJKFontOverride}{%
+  % Prefer fonts commonly available on Overleaf/TeXLive first.
+  \IfFontExistsTF{cwTeXKai}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{cwTeXKai}}{%
+    \IfFontExistsTF{BiauKai}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{BiauKai}}{%
+      \IfFontExistsTF{DFKai-SB}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{DFKai-SB}}{%
+        \IfFontExistsTF{AR PL KaitiM Big5}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{AR PL KaitiM Big5}}{%
+          \IfFontExistsTF{FandolKai}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{FandolKai}}{%
+            % Ming-style fallbacks (still acceptable in most NTU checks)
+            \IfFontExistsTF{cwTeXMing}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{cwTeXMing}}{%
+              \IfFontExistsTF{AR PL UMing TW}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{AR PL UMing TW}}{%
+                \IfFontExistsTF{AR PL UMing CN}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{AR PL UMing CN}}{%
+                  \IfFontExistsTF{Noto Serif CJK TC}{\setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{Noto Serif CJK TC}}{%
+                    \setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{FandolSong}% last resort
+                  }%
+                }%
+              }%
+            }%
+          }%
+        }%
+      }%
+    }%
+  }%
+}{%
+  \setCJKmainfont[AutoFakeBold=\CJKAutoFakeBold]{\CJKFontOverride}%
+}
+\makeatother
+
+% -------------------------
+% NTU wording adjustments
+% -------------------------
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\bibname}{References}
+
+% Main text: double spacing
+\doublespacing
+
+% Ensure page number appears at bottom center (plain style)
+\pagestyle{plain}
+
+% Draft helper (keeps TOC stable; hides only chapter bodies)
+\newcommand{\DraftHiddenNote}[1]{%
+  \noindent\textit{(Draft: #1 body hidden. Toggle in \texttt{config.tex}.)}\par
+}
+
+
+% -------------------------
+% Cover/titlepage block (printed twice)
+% - NTU cover: top margin 4 cm, centered, 1.5 spacing, specified font sizes
+% -------------------------
+\newcommand{\MakeCoverOrTitlePage}{%
+  \newgeometry{top=4cm, bottom=3cm, left=3cm, right=3cm} % cover/titlepage bottom margin per NTU spec%
+  \begin{titlepage}
+    \begin{spacing}{1.5}
+    \begin{center}
+      {\fontsize{18pt}{27pt}\selectfont \CoverLineCH\par}
+      {\fontsize{18pt}{27pt}\selectfont \CoverDegreeCH\par}
+      \vspace{0.5cm}
+      {\fontsize{14pt}{21pt}\selectfont \CoverInstituteEN\par}
+      {\fontsize{14pt}{21pt}\selectfont \CoverCollegeEN\par}
+      {\fontsize{16pt}{24pt}\selectfont \CoverUniversityEN\par}
+      {\fontsize{16pt}{24pt}\selectfont \CoverDegreeEN\par}
+      \vspace{2cm}
+      {\fontsize{18pt}{27pt}\selectfont \ThesisTitleCH \par}
+      {\fontsize{18pt}{27pt}\selectfont \ThesisTitleEN \par}
+      \vfill
+      {\fontsize{18pt}{27pt}\selectfont \AuthorCH \par}
+      {\fontsize{18pt}{27pt}\selectfont \AuthorEN \par}
+      \vspace{1.5cm}
+      {\fontsize{18pt}{27pt}\selectfont 指導教授：\AdvisorCH \par}
+      {\fontsize{18pt}{27pt}\selectfont Advisor: \AdvisorEN \par}
+      \vspace{1.5cm}
+      {\fontsize{18pt}{27pt}\selectfont 中華民國 \DefenseYearCH \ 年 \ \DefenseMonthCH \ 月 \par}
+      {\fontsize{18pt}{27pt}\selectfont \DefenseMonth, \DefenseYear \par}
+    \end{center}
+    \end{spacing}
+  \end{titlepage}
+  \restoregeometry
+}
+
+\begin{document}
+
+% ============================================================
+% Front (no page numbers): Cover + Title page
+% ============================================================
+\pagenumbering{gobble}
+\MakeCoverOrTitlePage
+\MakeCoverOrTitlePage
+
+% ============================================================
+% Frontmatter: roman numerals starting at i on Certificate page
+% ============================================================
+\clearpage
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\ifIncludeCertificate
+  \chapter*{Certificate of Thesis/Dissertation Approval}
+  \addcontentsline{toc}{chapter}{Certificate of Thesis/Dissertation Approval}
+  % 中文提示：此頁請用「已簽名」口試委員會審定書掃描檔取代（通常以 PDF 插入/替換此頁）。
+  (Replace this page with the scanned, signed approval certificate.)
+  \clearpage
+\fi
+
+\ifIncludeAcknowledgement
+  \chapter*{Acknowledgement}
+  \addcontentsline{toc}{chapter}{Acknowledgement}
+  % Tip: keep it concise.
+  I would like to express my sincere gratitude to my advisor...
+  \clearpage
+\fi
+
+\ifIncludeChineseAbstract
+  \chapter*{中文摘要}
+  \addcontentsline{toc}{chapter}{中文摘要}
+  % 中文提示：英文論文仍需附中文摘要；內容可精簡，但建議完整呈現研究背景、方法、結果與結論。
+  \begin{spacing}{1.5}
+  這是中文摘要內容（範例）。請在此填入您的中文摘要。
+  \end{spacing}
+
+  \vspace{1cm}\noindent \textbf{關鍵詞：} \KeywordsCH
+  \clearpage
+\fi
+
+\ifIncludeEnglishAbstract
+  \chapter*{Abstract}
+  \addcontentsline{toc}{chapter}{Abstract}
+  This is the English abstract (sample). Summarize background, methods, results, and conclusions.
+
+  \vspace{1cm}\noindent \textbf{Keywords:} \KeywordsEN
+  \clearpage
+\fi
+
+% TOC + optional LOF/LOT
+\tableofcontents
+\clearpage
+
+\ifIncludeLOF
+  \listoffigures
+  \addcontentsline{toc}{chapter}{List of Figures}
+  \clearpage
+\fi
+
+\ifIncludeLOT
+  \listoftables
+  \addcontentsline{toc}{chapter}{List of Tables}
+  \clearpage
+\fi
+
+% ============================================================
+% Mainmatter: arabic numerals start at 1 on Chapter 1
+% ============================================================
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter{Introduction}
+This is a minimal sample chapter. The main text is double-spaced with Times New Roman 12pt.
+
+\section{Background}
+Replace with your content.
+
+
+\chapter{Methods}
+\ifDraftFastCompile
+  \DraftHiddenNote{Methods}
+\else
+  \ifIncludeMethodsContent
+    Replace with your content.
+  \else
+    \DraftHiddenNote{Methods}
+  \fi
+\fi
+
+
+\chapter{Results}
+\ifDraftFastCompile
+  \DraftHiddenNote{Results}
+\else
+  \ifIncludeResultsContent
+    Replace with your content.
+  \else
+    \DraftHiddenNote{Results}
+  \fi
+\fi
+
+
+\chapter{Discussion and Conclusion}
+\ifDraftFastCompile
+  \DraftHiddenNote{Discussion and Conclusion}
+\else
+  \ifIncludeDiscussionContent
+    Replace with your content.
+  \else
+    \DraftHiddenNote{Discussion and Conclusion}
+  \fi
+\fi
+
+
+% References (keep minimal; switch to BibTeX later if you want)
+% ============================================================
+\clearpage
+\addcontentsline{toc}{chapter}{References}
+\begin{thebibliography}{99}
+\bibitem{ref1} Author, A. A. (2026). \textit{Title}. Journal Name, 1(1), 1--10.
+\end{thebibliography}
+
+% ============================================================
+% Appendix (optional)
+% ============================================================
+\ifIncludeAppendix
+  \appendix
+  \chapter{First Appendix}
+  Details of proofs (sample).
+\fi
+
+\end{document}
