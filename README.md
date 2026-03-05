@@ -1,10 +1,11 @@
 # National Taiwan University (NTU) Thesis/Dissertation LaTeX Template — English (Public Minimal)
 
-建議下載後使用overleaf修改
-等待勇者回報有沒有通過檢查
-不保證任何結果風險自負
-請確認格式規定有沒有更新
-https://www.lib.ntu.edu.tw/node/103
+建議下載後使用overleaf修改<br>
+https://www.overleaf.com<br>
+等待勇者回報有沒有通過檢查<br>
+不保證任何結果風險自負<br>
+請確認格式規定有沒有更新<br>
+https://www.lib.ntu.edu.tw/node/103<br>
 
 This is an **NTU-wide public template** for **English theses/dissertations** (Master’s/Doctoral) with:
 - **Minimal file set** (easy to maintain)
